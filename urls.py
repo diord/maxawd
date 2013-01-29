@@ -8,6 +8,7 @@ admin.autodiscover()
 
 urlpatterns = patterns('',
 	('^$', homepage),
+	(r'^accounts/', include('registration.backends.default.urls')),
     # Examples:
     # url(r'^$', 'maxawd.views.home', name='home'),
     # url(r'^maxawd/', include('maxawd.foo.urls')),
