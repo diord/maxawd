@@ -1,6 +1,17 @@
 # Django settings for maxawd project.
 import os.path
 
+#REGISTRATION
+ACCOUNT_ACTIVATION_DAYS=2
+EMAIL_HOST='PROTON'
+EMAIL_PORT=25
+EMAIL_HOST_USER='robot@mail.tm'
+EMAIL_HOST_PASSWORD='verter'
+DEFAULT_FROM_EMAIL='robot@mail.tm'
+AUTH_USER_EMAIL_UNIQUE = True
+EMAIL_USE_TLS = False
+
+
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -93,9 +104,11 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfViewMiddleware',
+#    'django.middleware.csrf.CsrfResponseMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
+
     # Uncomment the next line for simple clickjacking protection:
     # 'django.middleware.clickjacking.XFrameOptionsMiddleware',
 )
@@ -128,6 +141,7 @@ INSTALLED_APPS = (
     'django_evolution',
 )
 
+
 # A sample logging configuration. The only tangible logging
 # performed by this configuration is to send an email to
 # the site admins on every HTTP 500 error when DEBUG=False.
@@ -156,3 +170,4 @@ LOGGING = {
         },
     }
 }
+
