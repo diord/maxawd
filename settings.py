@@ -10,6 +10,7 @@ EMAIL_HOST_PASSWORD='verter'
 DEFAULT_FROM_EMAIL='robot@mail.tm'
 AUTH_USER_EMAIL_UNIQUE = True
 EMAIL_USE_TLS = False
+LOGIN_REDIRECT_URL = '/'
 
 
 DEBUG = True
@@ -104,8 +105,7 @@ TEMPLATE_LOADERS = (
 MIDDLEWARE_CLASSES = (
     'django.middleware.common.CommonMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
-#    'django.middleware.csrf.CsrfViewMiddleware',
-#    'django.middleware.csrf.CsrfResponseMiddleware',
+    'django.middleware.csrf.CsrfViewMiddleware',
     'django.contrib.auth.middleware.AuthenticationMiddleware',
     'django.contrib.messages.middleware.MessageMiddleware',
 
