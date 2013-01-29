@@ -125,7 +125,7 @@ INSTALLED_APPS = (
     'django.contrib.admindocs',
     'workshop',
     'registration',
-
+    'django_evolution',
 )
 
 # A sample logging configuration. The only tangible logging

@@ -18,16 +18,20 @@ class Parts(models.Model):
 	part_type = models.ForeignKey(Part_Types)
 	create_date = models.DateTimeField()
 	last_modify_date = models.DateTimeField()
-	
+	comment = models.TextField(verbose_name="comment", blank=True, null=True)
+
 	def __unicode__(self):
 		return '%s %s %s' % (self.number, self.last_modify_date, self.create_date)
+
+#	class Meta:
+#    	ordering = ["last_modify_date"]
 
 class Part_Operations(models.Model):
 	part = models.CharField(max_length=30)
 	operation = models.ForeignKey(Part_Operations_Types)
 	op_date = models.DateTimeField()
 	op_master = models.CharField(max_length=30)
-	op_description = models.CharField(max_length=255)
+	comment = models.TextField('comment', blank=True, null=True)
 
 	def __unicode__(self):
 		return '%s %s' % (self.part, self.operation)
