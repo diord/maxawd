@@ -1,14 +1,28 @@
 {% load i18n %}
+{% load staticfiles %}
+{% load static %}
 <!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
 <html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
 
 <head>
-    <link rel="stylesheet" href="/style.css" />
-    <title>{% block title %}User test{% endblock %}</title>
+	<!--
+ <style type="text/css"> h1{color:blue;} </style>
+ <link rel="stylesheet" href="{{ STATIC_URL }}/static/css/style.css" type="text/css" media="all" />
+
+ -->
+<link rel="stylesheet" href="{{ STATIC_URL }}/static/images/style.css" type="text/css"/>
+ 
+
+    <title>{% block title %}РОСНАСОС{% endblock %}</title>
 </head>
 
 <body>
+ <h1>Если этот текст КРАСНЫЙ, то CSS загружен успешно.</h1>
+ <img src="/static/images/01.jpg" />
+ <hr>
+ <img src="/media/01.jpg" />
+
     <div id="header">
         {% block header %}
     <a href="{% url home.views.index as index %}{{ index }}">Cancel</a>

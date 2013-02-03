@@ -1,18 +1,20 @@
 # Django settings for maxawd project.
 import os.path
+_PATH = os.path.abspath(os.path.dirname(__file__))
+
 
 #REGISTRATION
 ACCOUNT_ACTIVATION_DAYS=2
-EMAIL_HOST='PROTON'
-EMAIL_PORT=25
-EMAIL_HOST_USER='robot@mail.tm'
-EMAIL_HOST_PASSWORD='verter'
-DEFAULT_FROM_EMAIL='robot@mail.tm'
+EMAIL_HOST='localhost'
+EMAIL_PORT=1025
+#EMAIL_HOST_USER='robot@mail.tm'
+#EMAIL_HOST_PASSWORD='verter'
+#DEFAULT_FROM_EMAIL='robot@mail.tm'
 AUTH_USER_EMAIL_UNIQUE = True
 EMAIL_USE_TLS = False
 LOGIN_REDIRECT_URL = '/'
 
-
+PRODUCTION = False
 DEBUG = True
 TEMPLATE_DEBUG = DEBUG
 
@@ -60,25 +62,27 @@ USE_TZ = True
 
 # Absolute filesystem path to the directory that will hold user-uploaded files.
 # Example: "/home/media/media.lawrence.com/media/"
-MEDIA_ROOT = ''
+MEDIA_ROOT = os.path.join(_PATH, 'media').replace('\\','/')
 
 # URL that handles the media served from MEDIA_ROOT. Make sure to use a
 # trailing slash.
 # Examples: "http://media.lawrence.com/media/", "http://example.com/media/"
-MEDIA_URL = ''
+MEDIA_URL = '/media/'
 
 # Absolute path to the directory static files should be collected to.
 # Don't put anything in this directory yourself; store your static files
 # in apps' "static/" subdirectories and in STATICFILES_DIRS.
 # Example: "/home/media/media.lawrence.com/static/"
-STATIC_ROOT = ''
+STATIC_ROOT = os.path.join(_PATH, 'static').replace('\\','/')
 
 # URL prefix for static files.
 # Example: "http://media.lawrence.com/static/"
 STATIC_URL = '/static/'
 
+
 # Additional locations of static files
-STATICFILES_DIRS = (
+
+STATICFILES_DIRS = ( os.path.join(_PATH, 'staticfiles').replace('\\','/'),
     # Put strings here, like "/home/html/static" or "C:/www/django/static".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
@@ -122,7 +126,7 @@ TEMPLATE_DIRS = (
     # Put strings here, like "/home/html/django_templates" or "C:/www/django/templates".
     # Always use forward slashes, even on Windows.
     # Don't forget to use absolute paths, not relative paths.
-    os.path.join(os.path.dirname(__file__), 'templates').replace('\\','/'),
+    os.path.join(_PATH, 'templates').replace('\\','/'),
 )
 
 INSTALLED_APPS = (
