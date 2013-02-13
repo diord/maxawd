@@ -32,3 +32,5 @@ if not PRODUCTION:
     urlpatterns += patterns('',
         (r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': MEDIA_ROOT}),
     )  
+
+#(r'^static/(?P<path>.*)$', 'django.views.static.serve', {'document_root': '/home/django/list/static'}),

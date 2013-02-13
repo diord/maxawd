@@ -1,3 +1,4 @@
+# coding: utf-8
 from django.contrib import admin
 from django.template import RequestContext
 from workshop.models import Part_Types, Part_Operations_Types, Parts, Part_Operations
@@ -12,15 +13,9 @@ class Parts_Admin(admin.ModelAdmin):
 	
 class Part_Operations_Admin(admin.ModelAdmin):
     def save_model(self, request, obj, form, change):
-        obj.user = request.user 
+        obj.op_master = request.user 
        	obj.save()
-
-class DocumentAdmin(admin.ModelAdmin):
-    def save_model(self, request, obj, form, change):
-        if getattr(obj, 'added_by', None) is None:
-            obj.added_by = request.user
-        obj.last_modified_by = request.user
-        obj.save()
+        super(Part_Operations_Admin, self).save_model(request, obj, form, change)        
 
 admin.site.register(Part_Types, Part_Types_Admin)
 admin.site.register(Part_Operations_Types)
