@@ -12,9 +12,10 @@ class Parts_Admin(admin.ModelAdmin):
 	date_hierarchy = 'last_modify_date'
 	
 class Part_Operations_Admin(admin.ModelAdmin):
+    list_display = ('part', 'operation', 'op_date', 'op_master')
     def save_model(self, request, obj, form, change):
         obj.op_master = request.user 
-       	obj.save()
+        obj.save()
         super(Part_Operations_Admin, self).save_model(request, obj, form, change)        
 
 admin.site.register(Part_Types, Part_Types_Admin)
