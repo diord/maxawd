@@ -47,6 +47,10 @@ TIME_ZONE = 'Europe/Moscow'
 #LANGUAGE_CODE = 'en-us'
 LANGUAGE_CODE = 'ru-RU'
 
+FILE_CHARSET='utf-8'
+
+DEFAULT_CHARSET='utf-8'
+
 SITE_ID = 1
 
 # If you set this to False, Django will make some optimizations so as not

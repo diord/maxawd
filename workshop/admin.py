@@ -1,4 +1,4 @@
-# coding: utf-8
+# -*- coding: utf-8 -*- 
 from django.contrib import admin
 from django.template import RequestContext
 from workshop.models import Part_Types, Part_Operations_Types, Parts, Part_Operations

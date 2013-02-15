@@ -1,3 +1,4 @@
+# -*- coding: utf-8 -*- 
 from django.conf.urls import patterns, include, url
 from workshop.views import homepage
 # Uncomment the next two lines to enable the admin:

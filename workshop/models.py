@@ -1,4 +1,4 @@
- # coding: utf-8
+# -*- coding: utf-8 -*- 
 from django.db import models
 from django.contrib.auth.models import User
 import datetime
@@ -8,13 +8,11 @@ class Part_Types(models.Model):
 	name = models.CharField(max_length=30, 
 							verbose_name="наименование типа детали",
 							help_text = u'Детали из которых состоит аппарат')
-	
 	class Meta:
 		verbose_name = (u'Вид детали')
     	verbose_name_plural = (u'Виды деталей')	
-
 	def __unicode__(self):
-		return self.name
+		return unicode(self.name)
 
 
 class Part_Operations_Types(models.Model):
@@ -26,7 +24,7 @@ class Part_Operations_Types(models.Model):
     	verbose_name_plural = (u'Виды операций')	
 
 	def __unicode__(self):
-		return self.name
+		return unicode(self.name)
 	
 class Parts(models.Model):
 	number = models.CharField(max_length=3, verbose_name=u'номер')
@@ -38,10 +36,10 @@ class Parts(models.Model):
 	comment = models.TextField(verbose_name=u"примечание", blank=True, null=True)
 
 	def __unicode__(self):
-		return u'%s №%s (последняя операция %s / начало эксплуатации %s)' % (self.part_type, self.number, 
+		return '%s %s %s %s' % (self.part_type, self.number, 
 									self.last_modify_date.strftime("%d.%m.%y %H:%M"),
 									self.create_date.strftime("%d.%m.%y %H:%M"))
-	class Meta:
+ 	class Meta:
 #		verbose_name = (u'Деталь')
 #		verbose_name_plural = (u'Детали')	
 		ordering = ['-last_modify_date']
@@ -60,4 +58,4 @@ class Part_Operations(models.Model):
     	verbose_name_plural = (u'remonty')	
 
 	def __unicode__(self):
-		return '%s %s' % (self.part, self.operation)
+		return '%s %s' % self.part, self.operation
