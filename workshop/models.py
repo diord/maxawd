@@ -6,13 +6,13 @@ import datetime
 
 class Part_Types(models.Model):
 	name = models.CharField(max_length=30, 
-							verbose_name="наименование типа детали",
+							verbose_name="Наименование типа детали",
 							help_text = u'Детали из которых состоит аппарат')
 	class Meta:
 		verbose_name = (u'Вид детали')
     	verbose_name_plural = (u'Виды деталей')	
 	def __unicode__(self):
-		return unicode(self.name)
+		return (self.name)
 
 
 class Part_Operations_Types(models.Model):
@@ -24,7 +24,7 @@ class Part_Operations_Types(models.Model):
     	verbose_name_plural = (u'Виды операций')	
 
 	def __unicode__(self):
-		return unicode(self.name)
+		return (self.name)
 	
 class Parts(models.Model):
 	number = models.CharField(max_length=3, verbose_name=u'номер')
@@ -35,27 +35,29 @@ class Parts(models.Model):
 											auto_now=True)
 	comment = models.TextField(verbose_name=u"примечание", blank=True, null=True)
 
-	def __unicode__(self):
-		return '%s %s %s %s' % (self.part_type, self.number, 
-									self.last_modify_date.strftime("%d.%m.%y %H:%M"),
-									self.create_date.strftime("%d.%m.%y %H:%M"))
- 	class Meta:
+	class Meta:
 #		verbose_name = (u'Деталь')
 #		verbose_name_plural = (u'Детали')	
 		ordering = ['-last_modify_date']
 		unique_together = (('number', 'part_type'),)
 
+	def __unicode__(self):
+		return '%s %s %s %s' % 	(self.part_type, self.number, 
+			self.last_modify_date.strftime("%d.%m.%y %H:%M"), 
+			self.create_date.strftime("%d.%m.%y %H:%M"))
+								
+
 
 class Part_Operations(models.Model):
-	part = models.ForeignKey(Parts, verbose_name=u'detal')
+	part = models.ForeignKey(Parts, verbose_name=u'Деталь')
 	operation = models.ForeignKey(Part_Operations_Types, verbose_name=u'vid remonta')
-	op_date = models.DateTimeField(verbose_name=u'dataop', default=datetime.datetime.now)
+	op_date = models.DateTimeField(verbose_name=u'Дата операции', default=datetime.datetime.now)
 	op_master = models.ForeignKey(User)
 	comment = models.TextField(blank=True, null=True, verbose_name=u'prim')
 
 	class Meta:
-		verbose_name = (u'remont')  
-    	verbose_name_plural = (u'remonty')	
+		verbose_name = (u'Ремонт')  
+    	verbose_name_plural = (u'Ремонты')	
 
 	def __unicode__(self):
-		return '%s %s' % self.part, self.operation
+		return '%s %s' % (self.part, self.operation)
