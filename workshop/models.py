@@ -6,7 +6,7 @@ import datetime
 
 class Part_Types(models.Model):
 	name = models.CharField(max_length=30, 
-							verbose_name="Наименование типа детали",
+							verbose_name=u'Наименование типа детали',
 							help_text = u'Детали из которых состоит аппарат')
 	class Meta:
 		verbose_name = (u'Вид детали')
@@ -33,7 +33,7 @@ class Parts(models.Model):
 										auto_now_add=True)
 	last_modify_date = models.DateTimeField(verbose_name=u'дата последней операции', 
 											auto_now=True)
-	comment = models.TextField(verbose_name=u"примечание", blank=True, null=True)
+	comment = models.TextField(verbose_name=u'примечание', blank=True, null=True)
 
 	class Meta:
 #		verbose_name = (u'Деталь')
@@ -42,7 +42,7 @@ class Parts(models.Model):
 		unique_together = (('number', 'part_type'),)
 
 	def __unicode__(self):
-		return '%s %s %s %s' % 	(self.part_type, self.number, 
+		return '%s %s %s %s' % (unicode(self.part_type), self.number, 
 			self.last_modify_date.strftime("%d.%m.%y %H:%M"), 
 			self.create_date.strftime("%d.%m.%y %H:%M"))
 								
@@ -50,10 +50,10 @@ class Parts(models.Model):
 
 class Part_Operations(models.Model):
 	part = models.ForeignKey(Parts, verbose_name=u'Деталь')
-	operation = models.ForeignKey(Part_Operations_Types, verbose_name=u'vid remonta')
+	operation = models.ForeignKey(Part_Operations_Types, verbose_name=u'Вид ремонта')
 	op_date = models.DateTimeField(verbose_name=u'Дата операции', default=datetime.datetime.now)
 	op_master = models.ForeignKey(User)
-	comment = models.TextField(blank=True, null=True, verbose_name=u'prim')
+	comment = models.TextField(blank=True, null=True, verbose_name=u'Примечание')
 
 	class Meta:
 		verbose_name = (u'Ремонт')  
