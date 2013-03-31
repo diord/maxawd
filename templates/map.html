@@ -1,0 +1,10 @@
+<html>
+  <body>
+    <h1>Карта</h1>
+      {%for client in clients%}
+        <li> <a href="/client/{{client.slug}}">{{client.name}}</a></li>
+      {% empty %}
+        <li>Клиентов нет</li>
+      {%endfor%}
+  </body>
+</html>

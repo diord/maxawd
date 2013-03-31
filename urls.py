@@ -1,19 +1,21 @@
 # -*- coding: utf-8 -*- 
-from django.conf.urls import patterns, include, url
-from workshop.views import homepage
+
+from django.conf.urls   import patterns, include, url
+from workshop.views     import homepage, show_map
 # Uncomment the next two lines to enable the admin:
-from django.contrib import admin
-from settings import PRODUCTION, MEDIA_ROOT
+from django.contrib     import admin
+from settings           import PRODUCTION, MEDIA_ROOT
 
 admin.autodiscover()
 
-from django.conf.urls.static import static
+from django.conf.urls.static         import static
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
-from django.conf import settings
+from django.conf                     import settings
 
 urlpatterns = patterns('',
 	('^$', homepage),
 	(r'^accounts/', include('registration.backends.default.urls')),
+    (r'^map/$'    , show_map),
     # Examples:
     # url(r'^$', 'maxawd.views.home', name='home'),
     # url(r'^maxawd/', include('maxawd.foo.urls')),

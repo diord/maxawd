@@ -1,0 +1,52 @@
+{% load floattags %}
+{{ float_var|formatted_float }}
+
+<html style="height:100%;">
+<head>
+<title>Clients</title>
+<script src="http://maps.google.com/maps?file=api&amp;v=2&amp;" type="text/javascript">
+</script>
+</head>
+
+<body onload="" onunload="GUnload()" style="height:100%;padding:0;margin:0;">
+<script type="text/javascript">
+var map_long    =  55.820000;
+var map_lat     =  37.938000;
+var map_zoom    = 13;
+var clients      = [{% for client in clients %}
+                    [{{client.longitude}},{{ client.latitude }}, '{{ client.name }}']
+                    {% if not forloop.last %},{% endif %}{% endfor %}];
+</script>
+
+<div id="map" style="height:100%;width:100%;">
+</div>
+
+<script type="text/javascript">
+function addCrimeMarker(lng, lat, name) {
+    var markerpt = new GPoint(lng, lat);
+    var marker = new GMarker(markerpt);
+    var html = '<b>' + name + '</b><br>';
+    GEvent.addListener(marker, "click", function() { marker.openInfoWindowHtml(html); });
+    map.addOverlay(marker);
+}
+
+if (GBrowserIsCompatible()) {
+    var map_div = document.getElementById("map");
+    var map = new GMap2(map_div);
+
+    map.addControl(new GSmallMapControl());
+    map.addControl(new GMapTypeControl());
+    
+    var pt = new GLatLng(top.map_lat, top.map_long);
+    map.setCenter(pt, 17 - top.map_zoom);
+
+    if (crimes) {
+        for (var i=0; i < crimes.length; i++) {
+            addCrimeMarker(crimes[i][0], crimes[i][1], crimes[i][2]);
+        }
+    }
+}
+</script>
+
+</body>
+</html>
