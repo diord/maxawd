@@ -1,6 +1,4 @@
 {% load floattags %}
-{{ float_var|formatted_float }}
-
 <html style="height:100%;">
 <head>
 <title>Clients</title>
@@ -14,7 +12,7 @@ var map_long    =  55.820000;
 var map_lat     =  37.938000;
 var map_zoom    = 13;
 var clients      = [{% for client in clients %}
-                    [{{client.longitude}},{{ client.latitude }}, '{{ client.name }}']
+                    [{{client.longitude|formatted_float}},{{ client.latitude|formatted_float }}, '{{ client.name }}']
                     {% if not forloop.last %},{% endif %}{% endfor %}];
 </script>
 

@@ -1,0 +1,131 @@
+{% load floattags %}
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+    <title>Примеры. Создание меню для отображения коллекций геообъектов.</title>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <link href="bootstrap.css" rel="stylesheet">
+    <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
+    <script src="http://yandex.st/jquery/1.8.0/jquery.min.js" type="text/javascript"></script>
+    <script src="groups.js" type="text/javascript"></script>
+    <script type="text/javascript">
+
+var groups = [
+                {   name:   "Известные памятники", 
+                    preset: "twirl#redStretchyIcon",
+                    style:  "important",
+                    items:  [ {% for client in clients %} 
+                                { center: [{{client.latitude|formatted_float}},
+                                           {{client.longitude|formatted_float}}
+                                          ], 
+                                  name: "{{ client.name }}"
+                                } 
+                              {% if not forloop.last %},{% endif %}{% endfor %}
+                            ] 
+                }
+             ];
+
+        ymaps.ready(init);
+
+        function init() {
+            var myMap = new ymaps.Map('map', {  center: [50.443705, 30.530946], 
+                                                zoom: 14, 
+                                                behaviors: ['default', 'scrollZoom']
+                                              }
+                                      );
+            
+            var menu = $('<ul class="nav nav-list"/>');
+
+            groups.forEach(function (group) {
+                var menuItem = $('<li class="nav-header"><span class="label label-' + group.style + '">' + group.name + '</span></li>'),
+                    collection = new ymaps.GeoObjectCollection(null, { preset: group.preset });
+                myMap.geoObjects.add(collection);
+
+                menuItem
+                    .appendTo(menu)
+                    .on('click', function (e) {
+                        $(this)
+                            .nextUntil('.nav-header')
+                            .removeClass('active')
+                            .slideToggle('fast');
+
+                        if(collection.getParent()) {
+                            myMap.geoObjects.remove(collection);
+                        }
+                        else {
+                            myMap.geoObjects.add(collection);
+                        }
+                    });
+
+                group.items.forEach(function (item) {
+                    var menuItem = $('<li><a href="#">' + item.name + '</a></li>'),
+                        placemark = new ymaps.Placemark(item.center, { balloonContent: item.name,  iconContent: item.name});
+
+                    collection.add(placemark);
+
+                    menuItem
+                        .appendTo(menu)
+                        .on('click', function (e) {
+                            e.preventDefault();
+
+                            menuItem
+                                .toggleClass('active')
+                                .siblings('.active')
+                                .removeClass('active');
+
+                            if(placemark.balloon.isOpen()) {
+                                placemark.balloon.close();
+                            }
+                            else {
+                                myMap.panTo(placemark.geometry.getCoordinates(), {
+                                    delay: 100, flying: 1, 
+                                    callback: function () {
+                                        placemark.balloon.open();
+                                    }
+                                });
+                            }
+                        });
+                });
+            });
+
+
+            menu.appendTo($('#sidebar'));
+
+            myMap.setBounds(myMap.geoObjects.getBounds());
+            myMap.controls.add('zoomControl', {left : '5px', top: '55px'});
+            myMap.controls.add(new ymaps.control.TypeSelector());
+            myMap.controls.add('mapTools');
+            myMap.controls.add('trafficControl');
+
+
+        }
+    </script>
+    <style type="text/css">
+        .hero-unit {
+            background-color: #FFF;
+        }
+        .well {
+            padding: 15px 0;
+            height: 100%;
+        }
+        .label {
+            cursor: pointer;
+        }
+        #map {
+            height:350px;
+            width: 50%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row-fluid">
+            <div id="sidebar" class="well span2"></div>
+            <div id="map" class="span10"></div>
+        </div>
+    </div>
+</body>
+
+</html>
+

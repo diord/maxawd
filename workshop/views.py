@@ -16,5 +16,5 @@ def homepage(request):
 def show_map(request):
     clients = ClientsPlaces.objects.all()
     #clients = get_list_or_404 (ClientsPlaces, type = crimeType)
-    return render_to_response ('map_google.html', locals())
+    return render_to_response ('map_yandex.html', locals())
 
