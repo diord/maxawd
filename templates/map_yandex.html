@@ -2,7 +2,7 @@
 <!DOCTYPE html>
 <html xmlns="http://www.w3.org/1999/xhtml">
 <head>
-    <title>Примеры. Создание меню для отображения коллекций геообъектов.</title>
+    <title>Карта клиентов</title>
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
     <link href="bootstrap.css" rel="stylesheet">
     <script src="http://api-maps.yandex.ru/2.0/?load=package.full&lang=ru-RU" type="text/javascript"></script>
@@ -11,14 +11,23 @@
     <script type="text/javascript">
 
 var groups = [
-                {   name:   "Известные памятники", 
-                    preset: "twirl#redStretchyIcon",
+                {   name:   "Клиенты", 
                     style:  "important",
+                    preset: "twirl#greenStretchyIcon",
                     items:  [ {% for client in clients %} 
                                 { center: [{{client.latitude|formatted_float}},
                                            {{client.longitude|formatted_float}}
                                           ], 
-                                  name: "{{ client.name }}"
+                                  name: "<b>"+"{{ client.name }}"+"</b>",
+                                  description: "{{client.latitude|formatted_float}}"+
+                                  "<br>"+"{{client.longitude|formatted_float}}"+
+                                  "<br>"+"{{client.description}}",
+                                  
+                                    {%if client.flag %}
+                                            preset: "twirl#workshopIcon"
+                                        {% else %}
+                                            preset: "twirl#redStretchyIcon"
+                                    {% endif %}
                                 } 
                               {% if not forloop.last %},{% endif %}{% endfor %}
                             ] 
@@ -59,7 +68,12 @@ var groups = [
 
                 group.items.forEach(function (item) {
                     var menuItem = $('<li><a href="#">' + item.name + '</a></li>'),
-                        placemark = new ymaps.Placemark(item.center, { balloonContent: item.name,  iconContent: item.name});
+                        placemark = new ymaps.Placemark(item.center, 
+                                                        { balloonContent: item.name+
+                                                          '<hr>'+ item.description,  
+                                                          iconContent   : item.name},
+                                                          {preset: item.preset}
+                                                          );
 
                     collection.add(placemark);
 
@@ -96,8 +110,9 @@ var groups = [
             myMap.controls.add(new ymaps.control.TypeSelector());
             myMap.controls.add('mapTools');
             myMap.controls.add('trafficControl');
-
-
+            myMap.controls.add('scaleLine');
+            myMap.controls.add(new ymaps.control.MiniMap({expanded: false,type:'yandex#map'},{zoomOffset: 4}));
+            myMap.copyrights.add('&copy; Moroz Service');
         }
     </script>
     <style type="text/css">

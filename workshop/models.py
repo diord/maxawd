@@ -132,3 +132,57 @@ class Part_Operations(models.Model):
 
     def __unicode__(self):
         return '%s %s' % (self.part, self.operation)
+
+
+
+class Money(models.Model):
+    Client          = models.ForeignKey     (   ClientsPlaces, 
+                                                verbose_name    =   u'Клиент',
+                                                primary_key     =   True)
+
+    Tariff          = models.DecimalField   (   max_digits      =   8, 
+                                                decimal_places  =   2,
+                                                verbose_name    =   u'Твриф')
+
+    Quant           = models.PositiveSmallIntegerField(   
+                                                default         =   1, 
+                                                blank           =   False, 
+                                                null            =   False)
+
+    Closed_Date      = models.DateTimeField (   verbose_name    =   u'Оплачено до', 
+                                                blank           =   True, 
+                                                null            =   True,
+                                                auto_now        =   False)
+
+    Description     = models.TextField      (   verbose_name    =   u'Примечание', 
+                                                blank           =   True, 
+                                                null            =   True)
+
+    @property
+    def day_credit(self):
+        return (Tariff*Quant)
+
+    def __unicode__(self):
+        return '%s' % (self.Client)
+
+class Payments_History(models.Model):
+    Client          = models.ForeignKey     (   ClientsPlaces, 
+                                                verbose_name    =   u'Клиент',
+                                                primary_key     =   True)   
+    Pay_Date        = models.DateTimeField  (   verbose_name    =   u'Дата оплаты', 
+                                                blank           =   True, 
+                                                null            =   True,
+                                                auto_now        =   False)
+    Pay_Sum         = models.DecimalField   (   max_digits      =   8, 
+                                                decimal_places  =   2,
+                                                verbose_name    =   u'Сумма')
+    Description     = models.TextField      (   verbose_name    =   u'Примечание', 
+                                                blank           =   True, 
+                                                null            =   True)
+
+
+    def SumOfAllPayments(pClient):
+        return (Payments_History.objects.filter(Client=pClient).aggregate(Avg('Pay_Sum')))
+
+    def __unicode_(self):
+        return '%s' % (unicode(self.Pay_Sum))

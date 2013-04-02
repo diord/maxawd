@@ -8,13 +8,14 @@ import datetime
 from models import ClientsPlaces
 
 def homepage(request):
-    now = datetime.datetime.now()
-    t = get_template('homepage.html')
-    html = t.render(Context({'current_date': now}))
+    now     = datetime.datetime.now()
+    t       = get_template('homepage.html')
+    html    = t.render(Context({'current_date': now}))
     return HttpResponse(html)
 
 def show_map(request):
     clients = ClientsPlaces.objects.all()
     #clients = get_list_or_404 (ClientsPlaces, type = crimeType)
     return render_to_response ('map_yandex.html', locals())
+
 
